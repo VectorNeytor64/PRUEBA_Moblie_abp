@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Sistema Clínico de Evaluación de Diabetes Mellitus | Proyecto de Aula ABP - Universidad del Sinú Elías Bechara Zainúm">
+    <title>Evaluación Clínica de Diabetes Mellitus | Universidad del Sinú</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Chart.js para el Diagrama Interactivo de Glucometría -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Hoja de Estilos de la Aplicación -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='app_hub.css') }}?v=abp-2026-v2">
+</head>
+
+<body>
+
+    <!-- ==============================================================================
+         BARRA SUPERIOR / NAVBAR INSTITUCIONAL
+         ============================================================================== -->
+    <nav class="hub-navbar">
+        <div class="nav-inner">
+            <a href="/" class="brand-wrapper">
+                <img src="/imagenes/Universidad-del-sinu-Logo.png" alt="Universidad del Sinú" class="brand-logo"
+                    onerror="this.style.display='none';">
+                <div class="brand-text">
+                    <h1>UNIVERSIDAD DEL SINÚ</h1>
+                    <p>Elías Bechara Zainúm &bull; Proyecto ABP 2026</p>
+                </div>
+            </a>
+
+            <div class="nav-actions">
+                <span class="status-badge-live">
+                    <span class="pulse-dot"></span>
+                    <span>Sistema Clínico Activo</span>
+                </span>
+
+                <button type="button" id="btn-toggle-sound" class="btn-nav-action" title="Activar o silenciar sonido">
+                    🔊 Sonido
+                </button>
+
+                <button type="button" id="btn-ver-integrantes-nav" class="btn-nav-action"
+                    title="Conoce al equipo que desarrolló el proyecto">
+                    👥 Integrantes
+                </button>
+
+                <a href="/evaluador-laboratorio" class="btn-nav-action btn-nav-primary"
+                    title="Ingresar con pruebas de laboratorio clínico">
+                    🧪 Evaluador Laboratorio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==============================================================================
+         CONTENEDOR PRINCIPAL
+         ============================================================================== -->
+    <main class="hub-main-container">
+
+        <!-- ==========================================================================
+             PANTALLA HERO: LOS 3 CÍRCULOS PRINCIPALES (DISEÑO SOLICITADO)
+             ========================================================================== -->
+        <section id="hero-hub-view" class="hero-hub-view">
+            <div class="hub-title-box">
+                <div class="hub-academic-pill">
+                    <span>🏛️ FACULTAD DE CIENCIAS E INGENIERÍAS &bull; PROYECTO ABP</span>
+                </div>
+                <h2 class="hub-title">EVALUACIÓN CLÍNICA DE <span>DIABETES MELLITUS</span></h2>
+                <p class="hub-subtitle">
+                    Interactúa con cualquiera de las 3 opciones para iniciar tu perfil clínico, registrar tus comidas o
+                    generar el diagnóstico y reporte del glucómetro.
+                </p>
+            </div>
+
+            <!-- Columna Vertical de los 3 Círculos (Como en la Imagen Enviada) -->
+            <div class="circles-vertical-column">
+
+                <!-- 1. CÍRCULO PERSONA (Perfil, Antecedentes, Voz de Síntomas & Integrantes) -->
+                <div class="circle-card-item circle-item-persona" data-target-module="modulo-persona" role="button"
+                    tabindex="0">
+                    <div class="circle-interactive-btn">
+                        <img src="/imagenes/icono_persona.png" alt="Perfil del Paciente y Síntomas">
+                        <span class="circle-step-badge">1. Paciente</span>
+                    </div>
+                    <div class="circle-text-wrap">
+                        <h3 class="circle-title">Datos del Paciente & Síntomas</h3>
+                        <p class="circle-desc">Información general, antecedentes y grabación de voz de síntomas.</p>
+                    </div>
+                </div>
+
+                <!-- 2. CÍRCULO COMIDA (Calendario Semanal & Contador de Calorías) -->
+                <div class="circle-card-item circle-item-comida" data-target-module="modulo-comida" role="button"
+                    tabindex="0">
+                    <div class="circle-interactive-btn">
+                        <img src="/imagenes/icono_comida.png" alt="Calendario Semanal de Comidas">
+                        <span class="circle-step-badge">2. Nutrición</span>
+                    </div>
+                    <div class="circle-text-wrap">
+                        <h3 class="circle-title">Calendario de Comidas & Calorías</h3>
+                        <p class="circle-desc">Registro semanal de comidas y cálculo automático de calorías ingeridas.</p>
+                    </div>
+                </div>
+
+                <!-- 3. CÍRCULO DIAGRAMA (IA Detector, Glucómetro Predictivo & Ficha PDF) -->
+                <div class="circle-card-item circle-item-diagrama" data-target-module="modulo-diagrama" role="button"
+                    tabindex="0">
+                    <div class="circle-interactive-btn">
+                        <img src="/imagenes/icono_diagrama.png" alt="Diagrama de Glucómetro y Diagnóstico">
+                        <span class="circle-step-badge">3. Glucómetro</span>
+                    </div>
+                    <div class="circle-text-wrap">
+                        <h3 class="circle-title">IA Alimentos, Diagrama & Ficha PDF</h3>
+                        <p class="circle-desc">Detección de alimentos, curva de glucemia estimada y ficha imprimible.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             BARRA DE NAVEGACIÓN ENTRE MÓDULOS (VISIBLE AL ENTRAR EN CUALQUIERA)
+             ========================================================================== -->
+        <div id="module-navigation-tabs" class="module-navigation-tabs" style="display: none;">
+            <button type="button" class="tab-nav-btn" data-module="inicio">
+                ⌂ Inicio (3 Círculos)
+            </button>
+            <button type="button" class="tab-nav-btn tab-persona active" data-module="modulo-persona">
+                👤 1. Paciente & Síntomas
+            </button>
+            <button type="button" class="tab-nav-btn tab-comida" data-module="modulo-comida">
+                🍽️ 2. Calendario & Calorías
+            </button>
+            <button type="button" class="tab-nav-btn tab-diagrama" data-module="modulo-diagrama">
+                📊 3. Glucómetro & Diagnóstico
+            </button>
+        </div>
+
+        <!-- ==========================================================================
+             MÓDULO 1: INFORMACIÓN DEL PACIENTE, ANTECEDENTES Y VOZ DE SÍNTOMAS
+             ========================================================================== -->
+        <section id="modulo-persona" class="module-workspace-card" style="display: none;">
+            <div class="module-header">
+                <div class="module-header-left">
+                    <div class="module-icon-badge icon-persona-bg">👤</div>
+                    <div class="module-header-text">
+                        <h2>Información General y Síntomas por Voz</h2>
+                        <p>Completa tus datos personales, antecedentes médicos y graba tu nota de voz de síntomas.</p>
+                    </div>
+                </div>
+
+                <button type="button" id="btn-ver-integrantes-card" class="btn-nav-action">
+                    🎓 Conoce a los Integrantes del Proyecto
+                </button>
+            </div>
+
+            <!-- Formulario de Datos Personales -->
+            <div class="form-grid-3">
+                <div class="form-field">
+                    <label for="paciente-nombre">Nombre Completo del Paciente</label>
+                    <input type="text" id="paciente-nombre" class="input-box" placeholder="Ej. Victor Márquez"
+                        value="Paciente">
+                </div>
+                <div class="form-field">
+                    <label for="paciente-edad">Edad (Años)</label>
+                    <input type="number" id="paciente-edad" class="input-box" min="1" max="120" value="35">
+                </div>
+                <div class="form-field">
+                    <label for="paciente-genero">Género Biológico</label>
+                    <select id="paciente-genero" class="input-box">
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-grid-3">
+                <div class="form-field">
+                    <label for="paciente-telefono">Teléfono de Contacto</label>
+                    <input type="tel" id="paciente-telefono" class="input-box" placeholder="Ej. +57 300 123 4567">
+                </div>
+                <div class="form-field">
+                    <label for="paciente-correo">Correo Electrónico</label>
+                    <input type="email" id="paciente-correo" class="input-box" placeholder="paciente@correo.com">
+                </div>
+                <div class="form-field">
+                    <label for="paciente-direccion">Dirección de Residencia</label>
+                    <input type="text" id="paciente-direccion" class="input-box"
+                        placeholder="Ej. Barrio Los Laureles, Montería">
+                </div>
+            </div>
+
+            <!-- Biometría y Estilo de Vida -->
+            <div class="form-grid-3" style="margin-top: 10px;">
+                <div class="form-field">
+                    <label for="paciente-peso">Peso Corporal (kg)</label>
+                    <input type="number" id="paciente-peso" class="input-box" min="20" max="250" step="0.5" value="72">
+                </div>
+                <div class="form-field">
+                    <label for="paciente-estatura">Estatura (cm)</label>
+                    <input type="number" id="paciente-estatura" class="input-box" min="100" max="230" value="170">
+                </div>
+                <div class="form-field">
+                    <label for="paciente-actividad">Nivel de Actividad Física</label>
+                    <select id="paciente-actividad" class="input-box">
+                        <option value="moderado">Moderado (30-60 min/día)</option>
+                        <option value="sedentario">Sedentario (&lt; 30 min/día)</option>
+                        <option value="activo">Activo (&gt; 60 min/día deporte)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tarjeta de IMC en Tiempo Real -->
+            <div class="bmi-live-card">
+                <div>
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Índice
+                        de Masa Corporal (IMC):</span>
+                    <div id="bmi-val-display" class="bmi-val-big">24.9 kg/m²</div>
+                </div>
+                <div id="bmi-category-pill" class="bmi-pill" style="background: #dcfce7; color: #15803d;">
+                    Peso saludable
+                </div>
+            </div>
+
+            <!-- Antecedentes Médicos -->
+            <div class="form-grid-2" style="margin-top: 16px;">
+                <div class="form-field">
+                    <label for="paciente-antecedente-fam">Antecedentes Familiares de Diabetes</label>
+                    <select id="paciente-antecedente-fam" class="input-box">
+                        <option value="no">No / Desconocido</option>
+                        <option value="si">Sí (Padres o Hermanos directos)</option>
+                        <option value="abuelos">Sí (Abuelos o Tíos)</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="paciente-antecedentes-medicos">Comorbilidades Médicas Previas</label>
+                    <input type="text" id="paciente-antecedentes-medicos" class="input-box"
+                        placeholder="Ej. Hipertensión, colesterol elevado, gastritis...">
+                </div>
+            </div>
+
+            <!-- Grabadora de Audio de Síntomas con IA -->
+            <div class="audio-recorder-panel">
+                <div class="recorder-header-info">
+                    <h3>🎙️ Graba un Audio con los Síntomas que Sientes</h3>
+                    <p>Habla libremente al micrófono explicando tus síntomas (ej. <em>"tengo mucha sed constante, orino con frecuencia en la noche y me siento fatigado"</em>). La IA transcribirá y detectará automáticamente tus síntomas clínicos.</p>
+                </div>
+
+                <!-- Canvas de Visualización de Ondas Sonoras en Vivo -->
+                <canvas id="waveform-canvas" class="waveform-canvas" width="520" height="60"></canvas>
+
+                <div class="recorder-controls-row">
+                    <button type="button" id="btn-record-mic" class="btn-record-mic">
+                        🎙️ Iniciar Grabación de Síntomas
+                    </button>
+                    <span id="recording-timer" class="recording-timer">00:00</span>
+                </div>
+
+                <!-- Reproductor de Audio Grabado -->
+                <audio id="audio-preview-player" class="audio-preview-player" controls style="display: none;"></audio>
+
+                <!-- Cuadro de Transcripción de Voz en Tiempo Real -->
+                <div class="transcription-box">
+                    <div class="transcription-title">
+                        <span>💬 Transcripción en Vivo del Audio:</span>
+                    </div>
+                    <div id="transcription-text" class="transcription-text">
+                        Presiona "Iniciar Grabación de Síntomas" y comienza a hablar...
+                    </div>
+                </div>
+
+                <!-- Chips de Síntomas Clínicos Detectados -->
+                <div class="symptoms-detected-wrap">
+                    <label style="font-size: 0.85rem; font-weight: 700; color: #334155;">
+                        Síntomas Clínicos Identificados (Toca para agregar o retirar manualmente):
+                    </label>
+                    <div class="symptoms-chips-grid">
+                        <span class="symptom-chip" data-symptom-id="polidipsia">💧 Mucha Sed (Polidipsia)</span>
+                        <span class="symptom-chip" data-symptom-id="poliuria">🚽 Orina Frecuente (Poliuria)</span>
+                        <span class="symptom-chip" data-symptom-id="polifagia">🍽️ Hambre Excesiva (Polifagia)</span>
+                        <span class="symptom-chip" data-symptom-id="perdida_peso">⚖️ Pérdida de Peso Rápida</span>
+                        <span class="symptom-chip" data-symptom-id="fatiga">⚡ Cansancio / Fatiga</span>
+                        <span class="symptom-chip" data-symptom-id="vision_borrosa">👁️ Visión Borrosa</span>
+                        <span class="symptom-chip" data-symptom-id="hormigueo">🦶 Hormigueo en Pies/Manos</span>
+                        <span class="symptom-chip" data-symptom-id="cicatrizacion_lenta">🩹 Cicatrización Lenta</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <button type="button" class="btn-nav-action btn-nav-primary"
+                    onclick="activarModulo('modulo-comida');">
+                    <span>Siguiente: Registrar Comidas en el Calendario &rarr;</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             MÓDULO 2: CALENDARIO SEMANAL DE COMIDAS Y CONTADOR DE CALORÍAS
+             ========================================================================== -->
+        <section id="modulo-comida" class="module-workspace-card" style="display: none;">
+            <div class="module-header">
+                <div class="module-header-left">
+                    <div class="module-icon-badge icon-comida-bg">🍽️</div>
+                    <div class="module-header-text">
+                        <h2>Calendario Semanal de Comidas & Contador de Calorías</h2>
+                        <p>Registra lo que ingeriste día por día a lo largo de la semana para calcular tus calorías y macronutrientes.</p>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-nav-action" onclick="activarModulo('modulo-diagrama');">
+                    <span>Ir a Glucómetro e IA &rarr;</span>
+                </button>
+            </div>
+
+            <!-- Selector de Días de la Semana (Lunes a Domingo) -->
+            <div class="calendar-days-bar">
+                <div class="day-tab-card active" data-day="Lunes">
+                    <span class="day-name">Lun</span>
+                    <span class="day-cal-badge">0 kcal</span>
+                </div>
+                <div class="day-tab-card" data-day="Martes">
+                    <span class="day-name">Mar</span>
+                    <span class="day-cal-badge">0 kcal</span>
+                </div>
+                <div class="day-tab-card" data-day="Miércoles">
+                    <span class="day-name">Mié</span>
+                    <span class="day-cal-badge">0 kcal</span>
+                </div>
+                <div class="day-tab-card" data-day="Jueves">
+                    <span class="day-name">Jue</span>
+                    <span class="day-cal-badge">0 kcal</span>
+                </div>
+                <div class="day-tab-card" data-day="Viernes">
+                    <span class="day-name">Vie</span>
+                    <span class="day-cal-badge">0 kcal</span>
+                </div>
+                <div class="day-tab-card" data-day="Sábado">
+                    <span class="day-name">Sáb</span>
+                    <span class="day-cal-badge">0 kcal</span>
+                </div>
+                <div class="day-tab-card" data-day="Domingo">
+                    <span class="day-name">Dom</span>
+                    <span class="day-cal-badge">0 kcal</span>
+                </div>
+            </div>
+
+            <!-- Dashboard de Resumen Nutricional -->
+            <div class="calorie-summary-dashboard">
+                <div class="macro-metric-card">
+                    <div class="macro-metric-title">Calorías Hoy</div>
+                    <div id="metric-cals-dia" class="macro-metric-value">0 kcal</div>
+                    <div class="macro-metric-sub">Día seleccionado</div>
+                </div>
+                <div class="macro-metric-card">
+                    <div class="macro-metric-title">Carbohidratos</div>
+                    <div id="metric-carbs-dia" class="macro-metric-value">0 g</div>
+                    <div class="macro-metric-sub">Carga glucémica</div>
+                </div>
+                <div class="macro-metric-card">
+                    <div class="macro-metric-title">Total Semana</div>
+                    <div id="metric-cals-semana" class="macro-metric-value">0 kcal</div>
+                    <div class="macro-metric-sub">7 días acumulados</div>
+                </div>
+                <div class="macro-metric-card">
+                    <div class="macro-metric-title">Promedio Diario</div>
+                    <div id="metric-cals-promedio" class="macro-metric-value">0 kcal</div>
+                    <div class="macro-metric-sub">Meta: ~2,000 kcal</div>
+                </div>
+            </div>
+
+            <!-- Barra Directa en la Página para Agregar Cualquier Alimento (Sin Prompt Emergente) -->
+            <div class="inline-add-food-card">
+                <div class="inline-add-header">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-size: 1.25rem;">✍️</span>
+                        <strong style="color:#0f172a;font-size:1.05rem;">Agregar Alimento Directamente (<span id="active-day-display-name">Lunes</span>):</strong>
+                    </div>
+                    <span class="inline-add-hint">Escribe en la barra la comida que desees sin cuadros emergentes</span>
+                </div>
+
+                <div class="inline-add-form-row">
+                    <div class="add-field-grow">
+                        <input type="text" id="inline-food-name" class="input-box"
+                            placeholder="Escribe aquí cualquier comida (ej. Tajadas con queso, Sopa de costilla, Café con pan...)"
+                            autocomplete="off">
+                    </div>
+
+                    <div class="add-field-slot">
+                        <select id="inline-food-slot" class="input-box">
+                            <option value="desayuno">🌅 Desayuno</option>
+                            <option value="almuerzo" selected>☀️ Almuerzo</option>
+                            <option value="cena">🌙 Cena</option>
+                            <option value="snacks">🍎 Snacks / Merienda</option>
+                        </select>
+                    </div>
+
+                    <div class="add-field-cals">
+                        <input type="number" id="inline-food-cals" class="input-box" min="10" max="3000"
+                            placeholder="kcal (opcional)">
+                    </div>
+
+                    <button type="button" id="btn-submit-inline-food" class="btn-nav-action btn-nav-primary btn-add-inline-main">
+                        ➕ Agregar a la Lista
+                    </button>
+                </div>
+
+                <div id="inline-add-feedback" class="inline-feedback-msg" style="display: none;"></div>
+            </div>
+
+            <!-- Tiempos de Comida para el Día Activo -->
+            <div class="meal-slots-grid">
+                <!-- Desayuno -->
+                <div class="meal-slot-box" id="slot-box-desayuno">
+                    <div class="meal-slot-header">
+                        <span class="meal-slot-title">🌅 Desayuno</span>
+                        <span id="cals-desayuno" class="meal-slot-cals">0 kcal</span>
+                    </div>
+                    <ul id="list-desayuno" class="meal-items-list"></ul>
+                    <button type="button" class="btn-add-food-slot" data-slot="desayuno">
+                        + Escribir Alimento para el Desayuno
+                    </button>
+                </div>
+
+                <!-- Almuerzo -->
+                <div class="meal-slot-box" id="slot-box-almuerzo">
+                    <div class="meal-slot-header">
+                        <span class="meal-slot-title">☀️ Almuerzo</span>
+                        <span id="cals-almuerzo" class="meal-slot-cals">0 kcal</span>
+                    </div>
+                    <ul id="list-almuerzo" class="meal-items-list"></ul>
+                    <button type="button" class="btn-add-food-slot" data-slot="almuerzo">
+                        + Escribir Alimento para el Almuerzo
+                    </button>
+                </div>
+
+                <!-- Cena -->
+                <div class="meal-slot-box" id="slot-box-cena">
+                    <div class="meal-slot-header">
+                        <span class="meal-slot-title">🌙 Cena</span>
+                        <span id="cals-cena" class="meal-slot-cals">0 kcal</span>
+                    </div>
+                    <ul id="list-cena" class="meal-items-list"></ul>
+                    <button type="button" class="btn-add-food-slot" data-slot="cena">
+                        + Escribir Alimento para la Cena
+                    </button>
+                </div>
+
+                <!-- Snacks / Meriendas -->
+                <div class="meal-slot-box" id="slot-box-snacks">
+                    <div class="meal-slot-header">
+                        <span class="meal-slot-title">🍎 Snacks / Meriendas</span>
+                        <span id="cals-snacks" class="meal-slot-cals">0 kcal</span>
+                    </div>
+                    <ul id="list-snacks" class="meal-items-list"></ul>
+                    <button type="button" class="btn-add-food-slot" data-slot="snacks">
+                        + Escribir Snack o Merienda
+                    </button>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <button type="button" class="btn-nav-action btn-nav-primary"
+                    onclick="activarModulo('modulo-diagrama');">
+                    <span>Siguiente: Analizar con IA y Generar Glucometría &rarr;</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+             MÓDULO 3: IA DETECTOR DE COMIDAS, DIAGRAMA DEL GLUCÓMETRO & FICHA PDF
+             ========================================================================== -->
+        <section id="modulo-diagrama" class="module-workspace-card" style="display: none;">
+            <div class="module-header">
+                <div class="module-header-left">
+                    <div class="module-icon-badge icon-diagrama-bg">📊</div>
+                    <div class="module-header-text">
+                        <h2>IA Detector de Comidas & Diagrama del Glucómetro</h2>
+                        <p>Detección inteligente de alimentos, proyección del glucómetro y generación de ficha técnica imprimible.</p>
+                    </div>
+                </div>
+
+                <button type="button" id="btn-ver-ficha-pdf" class="btn-nav-action btn-nav-primary">
+                    📄 Ver e Imprimir Ficha en PDF
+                </button>
+            </div>
+
+            <!-- SECCIÓN 1: IA DETECTOR DE COMIDAS -->
+            <div class="ai-food-scanner-card">
+                <h3 style="font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:6px;">
+                    🤖 Inteligencia Artificial para Detección de Comidas
+                </h3>
+                <p style="font-size:0.88rem;color:#64748b;margin-bottom:18px;">
+                    Sube una foto de tu plato de comida o elige uno de los platos de muestra para que la IA reconozca sus ingredientes, calcule las calorías y determine su impacto en tu curva de glucemia.
+                </p>
+
+                <!-- Barra para Escribir Cualquier Comida y Analizarla con IA Directamente -->
+                <div class="ai-custom-input-bar" style="margin-bottom: 20px;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="ai-custom-food-input" class="input-box" style="flex: 1; min-width: 250px;"
+                            placeholder="Escribe aquí cualquier comida o plato para analizar (ej. Tajadas con queso, Sancocho, Sopa de pollo...)"
+                            autocomplete="off">
+                        <button type="button" id="btn-ai-analyze-custom" class="btn-nav-action btn-nav-primary">
+                            🤖 Analizar con IA
+                        </button>
+                    </div>
+                </div>
+
+                <div class="food-detector-flex">
+                    <!-- Dropzone para Subir Imagen -->
+                    <div id="food-dropzone" class="food-dropzone">
+                        <input type="file" id="food-file-input" accept="image/*" style="display: none;">
+                        <div class="dropzone-icon">📷</div>
+                        <strong style="color:#4f46e5;display:block;margin-bottom:4px;">Toca o arrastra una foto de tu comida</strong>
+                        <span style="font-size:0.8rem;color:#64748b;">La IA identificará los alimentos automáticamente</span>
+                    </div>
+
+                    <!-- Muestras Rápidas de Platos -->
+                    <div>
+                        <span style="font-size:0.82rem;font-weight:700;color:#334155;display:block;margin-bottom:8px;">O selecciona un plato típico para probar:</span>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="bandeja_paisa">Bandeja Paisa</button>
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="arroz_pollo">Arroz con Pollo</button>
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="pechuga_plancha">Pechuga y Verduras</button>
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="pescado_frito">Pescado con Patacón</button>
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="arepa_queso_huevo">Arepa con Queso</button>
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="avena_fruta">Avena con Frutas</button>
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="sopa_verduras">Sopa de Verduras</button>
+                            <button type="button" class="btn-nav-action btn-sample-plate" data-plate-key="hamburguesa_papas">Hamburguesa</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta del Plato Detectado -->
+                <div id="detected-plate-card" class="detected-plate-card" style="display: none; margin-top: 18px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <h4 id="detected-plate-title" class="detected-plate-title">Plato Detectado</h4>
+                            <span id="detected-plate-impact" class="badge-glycemic badge-glycemic-mid">Impacto Glucémico</span>
+                        </div>
+                        <div class="detected-add-bar-inline" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                            <select id="select-detected-slot" class="input-box" style="width:auto;padding:8px 12px;font-size:0.85rem;">
+                                <option value="desayuno">🌅 Desayuno</option>
+                                <option value="almuerzo" selected>☀️ Almuerzo</option>
+                                <option value="cena">🌙 Cena</option>
+                                <option value="snacks">🍎 Snacks</option>
+                            </select>
+                            <select id="select-detected-day" class="input-box" style="width:auto;padding:8px 12px;font-size:0.85rem;">
+                                <option value="Lunes">Lunes</option>
+                                <option value="Martes">Martes</option>
+                                <option value="Miércoles">Miércoles</option>
+                                <option value="Jueves">Jueves</option>
+                                <option value="Viernes">Viernes</option>
+                                <option value="Sábado">Sábado</option>
+                                <option value="Domingo">Domingo</option>
+                            </select>
+                            <button type="button" id="btn-add-detected-to-calendar" class="btn-nav-action" style="background:#16a34a;color:#fff;border:none;">
+                                ➕ Añadir al Calendario
+                            </button>
+                        </div>
+                    </div>
+                    <div id="toast-detected-feedback" style="display:none;margin-top:8px;padding:6px 12px;border-radius:6px;background:#dcfce7;color:#15803d;font-size:0.85rem;font-weight:bold;"></div>
+                    <p id="detected-plate-ingredients" style="font-size:0.86rem;color:#334155;margin:8px 0 6px 0;"></p>
+                    <p id="detected-plate-cals" style="font-size:0.86rem;font-weight:700;color:#0284c7;margin-bottom:8px;"></p>
+                    <p id="detected-plate-advice" style="font-size:0.84rem;color:#475569;background:#fff;padding:10px;border-radius:8px;border:1px solid #e2e8f0;"></p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: BOTÓN DE GENERACIÓN DIAGNÓSTICA -->
+            <div style="text-align: center; margin: 30px 0;">
+                <button type="button" id="btn-run-diagnosis" class="btn-run-diagnosis">
+                    🧬 Generar Diagnóstico Clínico y Reporte de Glucometría
+                </button>
+                <p style="font-size:0.84rem;color:#64748b;margin-top:6px;">
+                    * Recordatorio: El paciente no necesita conocer previamente su glucosa. El algoritmo clínico correlaciona los datos antropométricos, síntomas de voz y dieta semanal para estimar el perfil glucémico.
+                </p>
+            </div>
+
+            <!-- SECCIÓN 3: REPORTE CLÍNICO Y DIAGRAMA DEL GLUCÓMETRO -->
+            <div id="diagnosis-report-card" class="diagnosis-report-card" style="display: none;">
+                <!-- Veredicto Diagnóstico -->
+                <div id="verdict-banner" class="verdict-banner">
+                    <div id="verdict-title" class="verdict-title">DIAGNÓSTICO EN EVALUACIÓN</div>
+                    <div id="verdict-subtitle" class="verdict-subtitle">Nivel de Riesgo Metabólico</div>
+                    <p id="verdict-reason" style="font-size:0.92rem;margin-top:12px;max-width:760px;margin-left:auto;margin-right:auto;line-height:1.6;"></p>
+                </div>
+
+                <!-- Gráfico / Diagrama de la Curva del Glucómetro -->
+                <div style="margin: 28px 0;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+                        <h4 style="font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:800;color:#0f172a;">
+                            📈 Diagrama del Glucómetro &bull; Curva Diurna Proyectada
+                        </h4>
+                        <span style="font-size:0.82rem;font-weight:700;color:#4f46e5;">Correlacionado con Ingesta de Alimentos y Síntomas</span>
+                    </div>
+
+                    <div class="chart-wrapper">
+                        <canvas id="glucometer-chart-canvas"></canvas>
+                    </div>
+
+                    <div class="glucometer-reference-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: #10b981;"></span>
+                            <span>Normal (&lt; 100 mg/dL ayunas / &lt; 140 postprandial)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: #f59e0b;"></span>
+                            <span>Prediabetes (100 - 125 ayunas / 140 - 199 postprandial)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: #ef4444;"></span>
+                            <span>Límite Diabetes (&ge; 126 ayunas / &ge; 200 postprandial)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recomendaciones Médicas y Nutricionales -->
+                <div class="form-grid-2" style="margin-top: 28px;">
+                    <div style="background:#f8fafc;padding:20px;border-radius:12px;border:1px solid #e2e8f0;">
+                        <h4 style="font-family:'Outfit',sans-serif;color:#0369a1;font-size:1.05rem;font-weight:800;margin-bottom:10px;">
+                            🩺 Pautas Médicas y Conducta a Seguir:
+                        </h4>
+                        <ul id="report-recs-medicas" style="font-size:0.88rem;color:#334155;padding-left:18px;line-height:1.6;"></ul>
+                    </div>
+
+                    <div style="background:#f0fdf4;padding:20px;border-radius:12px;border:1px solid #bbf7d0;">
+                        <h4 style="font-family:'Outfit',sans-serif;color:#15803d;font-size:1.05rem;font-weight:800;margin-bottom:10px;">
+                            🥗 Plan Nutricional Personalizado:
+                        </h4>
+                        <ul id="report-recs-nutricionales" style="font-size:0.88rem;color:#166534;padding-left:18px;line-height:1.6;"></ul>
+                    </div>
+                </div>
+
+                <div class="report-action-buttons">
+                    <button type="button" class="btn-print-sheet" onclick="document.getElementById('btn-ver-ficha-pdf').click();">
+                        🖨️ Ver Ficha Técnica / Térmica en PDF
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==============================================================================
+         MODAL DE INTEGRANTES DEL PROYECTO ABP (UNIVERSIDAD DEL SINÚ)
+         ============================================================================== -->
+    <div id="modal-integrantes" class="modal-overlay hidden" role="dialog" aria-modal="true">
+        <div class="modal-content-card">
+            <button type="button" id="btn-cerrar-integrantes" class="modal-close-btn" title="Cerrar">&times;</button>
+
+            <div style="text-align: center; margin-bottom: 24px;">
+                <img src="/imagenes/Universidad-del-sinu-Logo.png" alt="Universidad del Sinú"
+                    style="width: 70px; height: 70px; object-fit: contain; margin-bottom: 8px;">
+                <h2 style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:900;color:#0f172a;">
+                    Integrantes del Proyecto ABP
+                </h2>
+                <p style="font-size:0.92rem;color:#0284c7;font-weight:700;">
+                    Facultad de Ciencias e Ingenierías &bull; Universidad del Sinú Elías Bechara Zainúm
+                </p>
+                <p style="font-size:0.86rem;color:#64748b;margin-top:4px;">
+                    Tecnología en Gestión de Sistemas de Información y Redes de Cómputo / Ingeniería de Sistemas
+                </p>
+            </div>
+
+            <h3 style="font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:6px;">
+                Estudiantes Desarrolladores:
+            </h3>
+
+            <div class="team-grid-modal">
+                <!-- Victor Márquez -->
+                <div class="member-card-box">
+                    <div class="member-img-wrap">
+                        <img src="/imagenes/victor_marquez.jpg" alt="Victor Manuel Marquez Alvarez"
+                            onerror="this.src='https://via.placeholder.com/90?text=VM';">
+                    </div>
+                    <div class="member-name-text">Victor Manuel Marquez Alvarez</div>
+                    <span class="member-role-tag">Estudiante / Desarrollador</span>
+                </div>
+
+                <!-- Mauro Osorio -->
+                <div class="member-card-box">
+                    <div class="member-img-wrap">
+                        <img src="/imagenes/mauro_osorio.jpg" alt="Mauro Luis Osorio Yoly"
+                            onerror="this.src='https://via.placeholder.com/90?text=MO';">
+                    </div>
+                    <div class="member-name-text">Mauro Luis Osorio Yoly</div>
+                    <span class="member-role-tag">Estudiante / Desarrollador</span>
+                </div>
+
+                <!-- Janvier Benavidez -->
+                <div class="member-card-box">
+                    <div class="member-img-wrap">
+                        <img src="/imagenes/janvier_benavidez.jpg" alt="Janvier Andrés Benavidez Torres"
+                            onerror="this.src='https://via.placeholder.com/90?text=JB';">
+                    </div>
+                    <div class="member-name-text">Janvier Andrés Benavidez Torres</div>
+                    <span class="member-role-tag">Estudiante / Desarrollador</span>
+                </div>
+            </div>
+
+            <h3 style="font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:6px;margin-top:20px;">
+                Docentes Asesores del Proyecto:
+            </h3>
+
+            <div class="teachers-modal-grid">
+                <!-- Luis Blanquicett -->
+                <div class="member-card-box">
+                    <div class="member-img-wrap" style="border-color:#16a34a;">
+                        <img src="/imagenes/PROFESOR.jfif" alt="Luis Blanquicett Benavides">
+                    </div>
+                    <div class="member-name-text">Luis Blanquicett Benavides</div>
+                    <span class="member-role-tag" style="background:#dcfce7;color:#15803d;">Docente Asesor &bull; Lógica y Algoritmos</span>
+                </div>
+
+                <!-- Emerson Madrid -->
+                <div class="member-card-box">
+                    <div class="member-img-wrap" style="border-color:#16a34a;">
+                        <img src="/imagenes/Emerson_Madrid.jpg" alt="Emerson Madrid">
+                    </div>
+                    <div class="member-name-text">Emerson Madrid</div>
+                    <span class="member-role-tag" style="background:#dcfce7;color:#15803d;">Docente Asesor &bull; Taller de Programación</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==============================================================================
+         MODAL DE FICHA TÉCNICA / TÉRMICA IMPRIMIBLE EN PDF
+         ============================================================================== -->
+    <div id="modal-ficha-tecnica" class="modal-overlay hidden" role="dialog" aria-modal="true">
+        <div class="modal-content-card" style="max-width: 820px;">
+            <button type="button" id="btn-cerrar-ficha" class="modal-close-btn" title="Cerrar">&times;</button>
+
+            <!-- Selector de Formato de Impresión -->
+            <div class="sheet-view-toggle">
+                <button type="button" id="toggle-formal-sheet" class="tab-nav-btn active">
+                    📄 Ficha Clínica A4 Formal
+                </button>
+                <button type="button" id="toggle-thermal-receipt" class="tab-nav-btn">
+                    🧾 Ficha Térmica (Receipt 80mm)
+                </button>
+                <button type="button" id="btn-print-directo" class="btn-nav-action btn-nav-primary">
+                    🖨️ Imprimir / Guardar en PDF
+                </button>
+            </div>
+
+            <!-- CONTENEDOR DE IMPRESIÓN -->
+            <div class="printable-container">
+
+                <!-- 1. FORMATO FORMAL A4 -->
+                <div id="view-formal-sheet" class="format-formal-sheet">
+                    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #0284c7;padding-bottom:14px;margin-bottom:18px;">
+                        <div>
+                            <h2 style="font-family:'Outfit',sans-serif;font-size:1.35rem;font-weight:900;color:#0f172a;margin:0;">
+                                UNIVERSIDAD DEL SINÚ ELÍAS BECHARA ZAINÚM
+                            </h2>
+                            <p style="font-size:0.86rem;color:#0284c7;font-weight:700;margin:2px 0 0 0;">
+                                FICHA TÉCNICA CLÍNICA &bull; PROYECTO DE AULA ABP
+                            </p>
+                        </div>
+                        <img src="/imagenes/Universidad-del-sinu-Logo.png" alt="Unisinú" style="width:55px;height:55px;object-fit:contain;">
+                    </div>
+
+                    <div style="display:flex;justify-content:space-between;background:#f8fafc;padding:8px 14px;border-radius:6px;font-size:0.82rem;font-weight:bold;margin-bottom:16px;">
+                        <span>FOLIO: <span id="sheet-folio">ABP-2026-0000</span></span>
+                        <span>FECHA EMISIÓN: <span id="sheet-fecha">--/--/----</span></span>
+                    </div>
+
+                    <h4 style="font-size:0.95rem;font-weight:800;color:#0f172a;border-bottom:1px solid #cbd5e1;padding-bottom:4px;margin-bottom:8px;">
+                        1. INFORMACIÓN DEL PACIENTE
+                    </h4>
+                    <table style="width:100%;font-size:0.86rem;border-collapse:collapse;margin-bottom:16px;">
+                        <tr>
+                            <td style="padding:4px 0;width:35%;color:#64748b;font-weight:bold;">Nombre:</td>
+                            <td id="sheet-nombre" style="font-weight:bold;color:#0f172a;">--</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 0;color:#64748b;font-weight:bold;">Edad:</td>
+                            <td id="sheet-edad">--</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 0;color:#64748b;font-weight:bold;">Biometría / IMC:</td>
+                            <td id="sheet-antropometria">--</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 0;color:#64748b;font-weight:bold;">Síntomas Declarados:</td>
+                            <td id="sheet-sintomas">--</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 0;color:#64748b;font-weight:bold;">Audio Transcrito:</td>
+                            <td id="sheet-audio-texto" style="font-style:italic;color:#334155;">--</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 0;color:#64748b;font-weight:bold;">Nutrición Semanal:</td>
+                            <td id="sheet-calorias">--</td>
+                        </tr>
+                    </table>
+
+                    <h4 style="font-size:0.95rem;font-weight:800;color:#0f172a;border-bottom:1px solid #cbd5e1;padding-bottom:4px;margin-bottom:8px;">
+                        2. PROYECCIÓN HORARIA DEL GLUCÓMETRO
+                    </h4>
+                    <table style="width:100%;font-size:0.84rem;border-collapse:collapse;margin-bottom:16px;">
+                        <thead>
+                            <tr style="background:#f1f5f9;text-align:left;">
+                                <th style="padding:6px;">Hora</th>
+                                <th style="padding:6px;">Momento</th>
+                                <th style="padding:6px;">Glucemia Estimada</th>
+                                <th style="padding:6px;">Rango</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheet-tabla-glucometro"></tbody>
+                    </table>
+
+                    <h4 style="font-size:0.95rem;font-weight:800;color:#0f172a;border-bottom:1px solid #cbd5e1;padding-bottom:4px;margin-bottom:8px;">
+                        3. DICTAMEN DIAGNÓSTICO ORIENTATIVO
+                    </h4>
+                    <div style="background:#f8fafc;padding:12px;border-left:4px solid #0284c7;border-radius:4px;margin-bottom:16px;">
+                        <div id="sheet-diagnostico" style="font-weight:800;font-size:1.05rem;">--</div>
+                        <p id="sheet-motivo" style="font-size:0.84rem;color:#334155;margin-top:4px;"></p>
+                    </div>
+
+                    <div style="font-size:0.75rem;color:#64748b;border-top:1px solid #e2e8f0;padding-top:10px;text-align:center;">
+                        <strong>PROYECTO DE AULA ABP 2026:</strong> Desarrollado por Victor Marquez, Mauro Osorio y Janvier Benavidez.<br>
+                        Asesores: Prof. Luis Blanquicett y Prof. Emerson Madrid &bull; Universidad del Sinú Elías Bechara Zainúm.
+                    </div>
+                </div>
+
+                <!-- 2. FORMATO FICHA TÉRMICA (RECEIPT 80MM) -->
+                <div id="view-thermal-receipt" class="format-thermal-receipt" style="display: none;">
+                    <div class="thermal-header">
+                        <div style="font-weight:bold;font-size:0.8rem;">UNIVERSIDAD DEL SINÚ</div>
+                        <div class="thermal-title">REPORTE GLUCOMETRÍA</div>
+                        <div style="font-size:0.75rem;">PROYECTO DE AULA ABP 2026</div>
+                        <div class="thermal-divider"></div>
+                        <div class="thermal-row">
+                            <span>FOLIO:</span>
+                            <span id="thermal-folio">--</span>
+                        </div>
+                        <div class="thermal-row">
+                            <span>FECHA:</span>
+                            <span id="thermal-fecha">--</span>
+                        </div>
+                    </div>
+
+                    <div class="thermal-row">
+                        <span>PACIENTE:</span>
+                        <strong id="thermal-nombre">--</strong>
+                    </div>
+                    <div class="thermal-row">
+                        <span>IMC:</span>
+                        <span id="thermal-imc">--</span>
+                    </div>
+                    <div class="thermal-row">
+                        <span>CALORIAS/DIA:</span>
+                        <span id="thermal-cals">--</span>
+                    </div>
+
+                    <div class="thermal-divider"></div>
+
+                    <div style="text-align:center;font-weight:bold;font-size:0.85rem;margin:6px 0;">MEDICIONES ESTIMADAS</div>
+                    <div class="thermal-row">
+                        <span>AYUNAS (07:00 AM):</span>
+                        <strong id="thermal-basal">-- mg/dL</strong>
+                    </div>
+                    <div class="thermal-row">
+                        <span>PICO POST-ALMUERZO:</span>
+                        <strong id="thermal-pico">-- mg/dL</strong>
+                    </div>
+
+                    <div class="thermal-divider"></div>
+
+                    <div style="text-align:center;margin:8px 0;">
+                        <span style="font-size:0.75rem;">DICTAMEN:</span><br>
+                        <strong id="thermal-diag" style="font-size:0.9rem;">--</strong>
+                    </div>
+
+                    <div class="thermal-divider"></div>
+                    <div style="text-align:center;font-size:0.7rem;">
+                        *** FIN DEL REPORTE CLÍNICO ***<br>
+                        EQUIPO ABP UNISINU 2026
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Controlador JS -->
+    <script src="{{ url_for('static', filename='app_hub.js') }}?v=abp-2026-v2"></script>
+</body>
+
+</html>

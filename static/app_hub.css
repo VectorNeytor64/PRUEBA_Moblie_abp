@@ -1,0 +1,1500 @@
+/* ==============================================================================
+   PROYECTO DE AULA ABP - UNIVERSIDAD DEL SINÚ ELÍAS BECHARA ZAINÚM
+   SISTEMA CLÍNICO DE EVALUACIÓN DE DIABETES MELLITUS
+   Estilos CSS Modernos, Responsivos y Dinámicos
+   ============================================================================== */
+
+:root {
+    --bg-page: #f2f4f8;
+    --bg-card: #ffffff;
+    --bg-card-subtle: #f8fafc;
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-light: #e0f2fe;
+    --primary-gradient: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    
+    --color-persona: #3b82f6;
+    --color-persona-light: #eff6ff;
+    --color-comida: #16a34a;
+    --color-comida-light: #f0fdf4;
+    --color-diagrama: #6366f1;
+    --color-diagrama-light: #eef2ff;
+
+    --success: #10b981;
+    --warning: #f59e0b;
+    --alert: #f97316;
+    --danger: #ef4444;
+
+    --text-main: #0f172a;
+    --text-muted: #334155;
+    --text-dim: #64748b;
+    --border: #e2e8f0;
+    --border-card: #cbd5e1;
+
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 10px 25px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.12);
+    --shadow-circle: 0 15px 35px rgba(15, 23, 42, 0.14);
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-muted);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    background-image: 
+        radial-gradient(circle at 10% 10%, rgba(2, 132, 199, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+        linear-gradient(to right, rgba(226, 232, 240, 0.4) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+}
+
+/* ==============================================================================
+   NAVBAR INSTITUCIONAL
+   ============================================================================== */
+.hub-navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.brand-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 10px;
+    padding: 3px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.brand-text h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+
+.brand-text p {
+    font-size: 0.78rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-nav-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.btn-nav-action:hover {
+    color: var(--primary);
+    border-color: #bae6fd;
+    background: var(--primary-light);
+    transform: translateY(-1px);
+}
+
+.btn-nav-primary {
+    background: var(--primary-gradient);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+}
+
+.btn-nav-primary:hover {
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+    transform: translateY(-2px);
+}
+
+.status-badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #16a34a;
+    border-radius: 50%;
+    animation: pulseGlow 1.8s infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ==============================================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================================== */
+.hub-main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 80px 20px;
+}
+
+/* ==============================================================================
+   PANTALLA PRINCIPAL: LOS 3 CÍRCULOS INTERACTIVOS (VISTA IDÉNTICA A LA IMAGEN)
+   ============================================================================== */
+.hero-hub-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px 40px 10px;
+    text-align: center;
+}
+
+.hub-title-box {
+    margin-bottom: 30px;
+    max-width: 680px;
+}
+
+.hub-academic-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-sm);
+}
+
+.hub-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.hub-title span {
+    color: var(--primary);
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hub-subtitle {
+    font-size: 0.98rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+}
+
+/* COLUMNA VERTICAL DE LOS 3 CÍRCULOS (COMO EN LA IMAGEN) */
+.circles-vertical-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+    margin: 15px 0 45px 0;
+    width: 100%;
+    max-width: 480px;
+}
+
+.circle-card-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    width: 100%;
+}
+
+/* El círculo interactivo exterior */
+.circle-interactive-btn {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 6px;
+    box-shadow: var(--shadow-circle);
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    user-select: none;
+}
+
+.circle-interactive-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    pointer-events: none;
+    transition: transform 0.35s ease;
+}
+
+/* Indicador de número en el círculo */
+.circle-step-badge {
+    position: absolute;
+    bottom: -6px;
+    background: #ffffff;
+    color: var(--text-main);
+    border: 2px solid var(--border);
+    font-size: 0.76rem;
+    font-weight: 800;
+    padding: 4px 14px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Hover e interacción táctil por círculo */
+.circle-card-item:hover,
+.circle-card-item:focus-visible {
+    transform: translateY(-8px);
+}
+
+.circle-card-item:hover .circle-interactive-btn {
+    transform: scale(1.06);
+}
+
+.circle-card-item:hover .circle-interactive-btn img {
+    transform: scale(1.03);
+}
+
+.circle-card-item:active .circle-interactive-btn {
+    transform: scale(0.97);
+}
+
+/* Círculo 1: Persona (Azul) */
+.circle-item-persona:hover .circle-interactive-btn {
+    border-color: #38bdf8;
+    box-shadow: 0 20px 45px rgba(2, 132, 199, 0.35), 0 0 0 8px rgba(56, 189, 248, 0.2);
+}
+.circle-item-persona:hover .circle-step-badge {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+}
+
+/* Círculo 2: Comida (Verde Oliva / Salvia) */
+.circle-item-comida:hover .circle-interactive-btn {
+    border-color: #84cc16;
+    box-shadow: 0 20px 45px rgba(22, 163, 74, 0.32), 0 0 0 8px rgba(132, 204, 22, 0.2);
+}
+.circle-item-comida:hover .circle-step-badge {
+    background: #16a34a;
+    color: #ffffff;
+    border-color: #16a34a;
+}
+
+/* Círculo 3: Diagrama (Índigo / Púrpura) */
+.circle-item-diagrama:hover .circle-interactive-btn {
+    border-color: #818cf8;
+    box-shadow: 0 20px 45px rgba(99, 102, 241, 0.35), 0 0 0 8px rgba(129, 140, 248, 0.2);
+}
+.circle-item-diagrama:hover .circle-step-badge {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+}
+
+/* Textos informativos de cada círculo */
+.circle-text-wrap {
+    margin-top: 14px;
+    max-width: 320px;
+    text-align: center;
+}
+
+.circle-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.circle-desc {
+    font-size: 0.86rem;
+    color: var(--text-dim);
+    line-height: 1.4;
+}
+
+/* ==============================================================================
+   BARRA DE NAVEGACIÓN ENTRE MÓDULOS ACTIVOS
+   ============================================================================== */
+.module-navigation-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 68px;
+    z-index: 900;
+    background: rgba(242, 244, 248, 0.95);
+    padding: 8px 0;
+    backdrop-filter: blur(8px);
+}
+
+.tab-nav-btn {
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.25s ease;
+}
+
+.tab-nav-btn:hover {
+    color: var(--primary);
+    border-color: #bae6fd;
+    transform: translateY(-2px);
+}
+
+.tab-nav-btn.active {
+    background: var(--text-main);
+    color: #ffffff;
+    border-color: var(--text-main);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2);
+}
+
+.tab-nav-btn.active.tab-persona {
+    background: var(--color-persona);
+    border-color: var(--color-persona);
+}
+.tab-nav-btn.active.tab-comida {
+    background: var(--color-comida);
+    border-color: var(--color-comida);
+}
+.tab-nav-btn.active.tab-diagrama {
+    background: var(--color-diagrama);
+    border-color: var(--color-diagrama);
+}
+
+/* ==============================================================================
+   TARJETAS Y MÓDULOS DE CONTENIDO
+   ============================================================================== */
+.module-workspace-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 32px 28px;
+    margin-bottom: 40px;
+    animation: fadeInView 0.4s ease;
+}
+
+@keyframes fadeInView {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+}
+
+.module-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.module-icon-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.icon-persona-bg { background: var(--color-persona-light); color: var(--color-persona); }
+.icon-comida-bg { background: var(--color-comida-light); color: var(--color-comida); }
+.icon-diagrama-bg { background: var(--color-diagrama-light); color: var(--color-diagrama); }
+
+.module-header-text h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+.module-header-text p {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+}
+
+/* ==============================================================================
+   FORMULARIOS Y CAMPOS
+   ============================================================================== */
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-field label {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.input-box {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--text-main);
+    background: #ffffff;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.input-box:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* Tarjeta de IMC en vivo */
+.bmi-live-card {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.bmi-val-big {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--text-main);
+}
+
+.bmi-pill {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ==============================================================================
+   GRABADORA DE AUDIO INTELIGENTE PARA SÍNTOMAS
+   ============================================================================== */
+.audio-recorder-panel {
+    background: #ffffff;
+    border: 2px dashed #93c5fd;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 24px 0;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.06);
+}
+
+.recorder-header-info {
+    margin-bottom: 16px;
+}
+
+.recorder-header-info h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.recorder-header-info p {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+}
+
+.waveform-canvas {
+    width: 100%;
+    max-width: 520px;
+    height: 60px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin: 12px auto;
+    display: block;
+}
+
+.recorder-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.btn-record-mic {
+    background: var(--color-persona);
+    color: #ffffff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+    transition: all 0.3s ease;
+}
+
+.btn-record-mic:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.45);
+}
+
+.btn-record-mic.recording {
+    background: #ef4444;
+    animation: pulseRecord 1.2s infinite;
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.45);
+}
+
+@keyframes pulseRecord {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+.recording-timer {
+    font-family: 'Outfit', monospace;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ef4444;
+    min-width: 60px;
+}
+
+.audio-preview-player {
+    margin-top: 16px;
+    width: 100%;
+    max-width: 440px;
+}
+
+/* Transcripción de voz en vivo */
+.transcription-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-top: 18px;
+    text-align: left;
+}
+
+.transcription-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.transcription-text {
+    font-size: 0.92rem;
+    color: var(--text-main);
+    font-style: italic;
+    min-height: 24px;
+}
+
+/* Chips de Síntomas Detectados */
+.symptoms-detected-wrap {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.symptoms-chips-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.symptom-chip {
+    background: #ffffff;
+    border: 1px solid var(--border-card);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.symptom-chip:hover {
+    border-color: var(--color-persona);
+    background: var(--color-persona-light);
+}
+
+.symptom-chip.active {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+    font-weight: 700;
+}
+
+/* ==============================================================================
+   MÓDULO 2: CALENDARIO DE COMIDAS & CONTADOR DE CALORÍAS
+   ============================================================================== */
+.calendar-days-bar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.day-tab-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.day-tab-card:hover {
+    border-color: var(--color-comida);
+    transform: translateY(-2px);
+}
+
+.day-tab-card.active {
+    background: var(--color-comida);
+    color: #ffffff;
+    border-color: var(--color-comida);
+    box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
+}
+
+.day-name {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.day-cal-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: var(--bg-card-subtle);
+    color: var(--text-muted);
+}
+
+.day-tab-card.active .day-cal-badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+/* Panel de Macros y Calorías */
+.calorie-summary-dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.macro-metric-card {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+}
+
+.macro-metric-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.macro-metric-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 900;
+    color: var(--text-main);
+}
+
+.macro-metric-sub {
+    font-size: 0.76rem;
+    color: var(--text-dim);
+}
+
+/* Grilla de Tiempos de Comida */
+.meal-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.meal-slot-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+}
+
+.meal-slot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.meal-slot-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meal-slot-cals {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-comida);
+}
+
+.meal-items-list {
+    list-style: none;
+    margin-bottom: 12px;
+    min-height: 48px;
+}
+
+.meal-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    background: var(--bg-card-subtle);
+    margin-bottom: 6px;
+}
+
+.btn-remove-food {
+    color: #ef4444;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.btn-add-food-slot {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px dashed var(--border-card);
+    color: var(--color-comida);
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-add-food-slot:hover {
+    background: var(--color-comida-light);
+    border-color: var(--color-comida);
+}
+
+/* ==============================================================================
+   BARRA DIRECTA PARA AGREGAR ALIMENTO (SIN PROMPTS EMERGENTES)
+   ============================================================================== */
+.inline-add-food-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inline-add-food-card:hover {
+    border-color: #cbd5e1;
+}
+
+.inline-add-food-card.pulse-focus-card {
+    border-color: var(--color-comida);
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.25), 0 8px 25px rgba(22, 163, 74, 0.15);
+    transform: translateY(-2px);
+}
+
+.inline-add-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.inline-add-hint {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+.inline-add-form-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.add-field-grow {
+    flex: 1;
+    min-width: 240px;
+}
+
+.add-field-slot {
+    width: 170px;
+}
+
+.add-field-cals {
+    width: 140px;
+}
+
+.btn-add-inline-main {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 800 !important;
+    padding: 12px 20px !important;
+    white-space: nowrap;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35) !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer;
+}
+
+.btn-add-inline-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45) !important;
+}
+
+.btn-add-inline-main:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.inline-feedback-msg {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Barra de Entrada Personalizada en Módulo 3 */
+.ai-custom-input-bar {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+}
+
+/* ==============================================================================
+   MÓDULO 3: IA DETECTOR DE COMIDAS & DIAGRAMA DEL GLUCÓMETRO
+   ============================================================================== */
+.ai-food-scanner-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+}
+
+.food-detector-flex {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+}
+
+.food-dropzone {
+    border: 2px dashed #818cf8;
+    background: #f5f7ff;
+    border-radius: var(--radius-md);
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.food-dropzone:hover {
+    background: #eef2ff;
+    border-color: var(--color-diagrama);
+}
+
+.dropzone-icon {
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+}
+
+.detected-plate-card {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+}
+
+.detected-plate-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.badge-glycemic {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.badge-glycemic-low { background: #dcfce7; color: #166534; }
+.badge-glycemic-mid { background: #fef3c7; color: #92400e; }
+.badge-glycemic-high { background: #fee2e2; color: #991b1b; }
+
+/* BOTÓN DE GENERACIÓN DIAGNÓSTICA */
+.btn-run-diagnosis {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #4338ca 100%);
+    color: #ffffff;
+    border: none;
+    padding: 18px 36px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.4);
+    transition: all 0.35s ease;
+    margin: 20px 0;
+}
+
+.btn-run-diagnosis:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 18px 40px rgba(79, 70, 229, 0.55);
+}
+
+/* ==============================================================================
+   REPORTE Y DIAGRAMA DEL GLUCÓMETRO
+   ============================================================================== */
+.diagnosis-report-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    margin-top: 24px;
+    box-shadow: var(--shadow-lg);
+}
+
+.verdict-banner {
+    padding: 22px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    margin-bottom: 24px;
+    border: 2px solid;
+}
+
+.verdict-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 900;
+    margin-bottom: 6px;
+}
+
+.verdict-subtitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* Canvas del Diagrama de Glucometría */
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    margin: 24px 0;
+}
+
+/* Referencias de Zonas de Glucemia */
+.glucometer-reference-legend {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+/* Botones de Acción de la Ficha */
+.report-action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.btn-print-sheet {
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-print-sheet:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(15, 23, 42, 0.35);
+}
+
+/* ==============================================================================
+   MODAL DE INTEGRANTES DEL PROYECTO ABP
+   ============================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.modal-content-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    max-width: 860px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 34px 28px;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.3);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.team-grid-modal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 24px 0;
+}
+
+.member-card-box {
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.member-img-wrap {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 12px;
+    border: 3px solid var(--primary);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+}
+
+.member-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-name-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.member-role-tag {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+/* Docentes en el modal */
+.teachers-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 14px;
+}
+
+/* ==============================================================================
+   FICHA TÉCNICA / TÉRMICA IMPRIMIBLE (ESTILO TICKET Y ESTILO FORMAL)
+   ============================================================================== */
+.sheet-view-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.printable-container {
+    background: #ffffff;
+    margin: 0 auto;
+}
+
+/* Formato Ficha Clínica Formal A4 */
+.format-formal-sheet {
+    max-width: 720px;
+    padding: 28px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+}
+
+/* Formato Ficha Térmica (Receipt 80mm de Glucometría) */
+.format-thermal-receipt {
+    max-width: 380px;
+    padding: 24px 18px;
+    background: #fffefb;
+    border: 1px dashed #94a3b8;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #1e293b;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.thermal-header {
+    text-align: center;
+    border-bottom: 1px dashed #64748b;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+}
+
+.thermal-title {
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.thermal-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 3px 0;
+}
+
+.thermal-divider {
+    border-top: 1px dashed #64748b;
+    margin: 10px 0;
+}
+
+/* ==============================================================================
+   ESTILOS DE IMPRESIÓN (@media print)
+   ============================================================================== */
+@media print {
+    body {
+        background: #ffffff !important;
+        background-image: none !important;
+        color: #000000 !important;
+    }
+
+    .hub-navbar,
+    .module-navigation-tabs,
+    .hero-hub-view,
+    .modal-close-btn,
+    .sheet-view-toggle,
+    .btn-print-sheet,
+    .btn-run-diagnosis,
+    .audio-recorder-panel,
+    .btn-add-food-slot,
+    .food-dropzone {
+        display: none !important;
+    }
+
+    .modal-overlay {
+        position: static !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+    }
+
+    .modal-content-card {
+        box-shadow: none !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .printable-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    .format-formal-sheet,
+    .format-thermal-receipt {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
+/* ==============================================================================
+   RESPONSIVE DESIGN (MÓVILES Y PANTALLAS PEQUEÑAS)
+   ============================================================================== */
+@media (max-width: 768px) {
+    .circle-interactive-btn {
+        width: 190px;
+        height: 190px;
+    }
+
+    .hub-title {
+        font-size: 1.75rem;
+    }
+
+    .form-grid-2,
+    .form-grid-3,
+    .meal-slots-grid,
+    .food-detector-flex,
+    .team-grid-modal,
+    .teachers-modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calorie-summary-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .calendar-days-bar {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
